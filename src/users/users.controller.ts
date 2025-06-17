@@ -1,28 +1,27 @@
-import { Controller, Delete, Get, Post, Patch, Body } from '@nestjs/common';
-import { Prisma, PrismaClient } from 'generated/prisma';
-
-const prisma = new PrismaClient()
+import { Controller, Delete, Get, Post, Patch, Body, ParseIntPipe } from '@nestjs/common';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
+    constructor(private UsersService: UsersService) {}
+
     @Get()
     getUsers(): {} {
-        const users = prisma.user.findMany()
-        return users
+        return this.UsersService.getUsers()
     }
 
     @Post()
-    createuser(@Body() name: string, email: string, password: string): {} {
-        return { name, email, password }
+    createuser(@Body() body: {name: string, email: string, password: string}): {} {
+        return this.UsersService.createuser(body)
     }
 
     @Patch()
-    patchUser(): string {
-        return 'User patched'
+    patchUser(@Body() body: {name?: string, email?: string, password?: string}): {} {
+        return this.UsersService.patchUser(body)
     }
 
     @Delete()
-    deleteuser(): string {
-        return 'User deleted'
+    deleteuser(@Body() id: number): number {
+        return this.UsersService.deleteuser(id)
     }
 }
