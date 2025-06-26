@@ -1,13 +1,14 @@
-import { Controller, Delete, Get, Post, Patch, Body, ParseIntPipe } from '@nestjs/common';
+import { Controller, Delete, Get, Post, Patch, Body, ParseIntPipe, Param, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { customParseInt } from 'src/pipes/custom-parse-int.pipe';
 
 @Controller('users')
 export class UsersController {
     constructor(private UsersService: UsersService) {}
 
     @Get()
-    getUsers(): {} {
-        return this.UsersService.getUsers()
+    getUsers(@Query('id', customParseInt) id?: number): {} {
+        return this.UsersService.getUsers(id)
     }
 
     @Post()
@@ -21,7 +22,7 @@ export class UsersController {
     }
 
     @Delete()
-    deleteuser(@Body() id: number): number {
+    deleteuser(@Body(ParseIntPipe) id: number): number {
         return this.UsersService.deleteuser(id)
     }
 }
