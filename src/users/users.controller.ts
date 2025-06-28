@@ -24,7 +24,7 @@ export class UsersController {
     }
 
     @Delete()
-    deleteuser(@Body(ParseIntPipe) id: number): number {
+    deleteuser(@Body('id', ParseIntPipe) id: number): Promise<any> {
         return this.UsersService.deleteuser(id)
     }
 }
