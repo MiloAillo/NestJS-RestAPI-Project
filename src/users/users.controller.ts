@@ -1,24 +1,26 @@
-import { Controller, Delete, Get, Post, Patch, Body, ParseIntPipe, Param, Query } from '@nestjs/common';
+import { Controller, Delete, Get, Post, Patch, Body, ParseIntPipe, Param, Query, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { customParseInt } from 'src/pipes/custom-parse-int.pipe';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/patch-user.dto';
 
 @Controller('users')
 export class UsersController {
     constructor(private UsersService: UsersService) {}
 
     @Get()
-    getUsers(@Query('id', customParseInt) id?: number): {} {
+    getUsers(@Query('id', customParseInt) id?: number): Promise<any> {
         return this.UsersService.getUsers(id)
     }
 
     @Post()
-    createuser(@Body() body: {name: string, email: string, password: string}): {} {
-        return this.UsersService.createuser(body)
+    createUser(@Body(ValidationPipe) createUserDto: CreateUserDto): {} {
+        return this.UsersService.createUser(createUserDto)
     }
 
     @Patch()
-    patchUser(@Body() body: {name?: string, email?: string, password?: string}): {} {
-        return this.UsersService.patchUser(body)
+    patchUser(@Body(ValidationPipe) updateUserDto: UpdateUserDto): {} {
+        return this.UsersService.patchUser(updateUserDto)
     }
 
     @Delete()
