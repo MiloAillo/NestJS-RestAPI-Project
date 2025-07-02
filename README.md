@@ -1,3 +1,6 @@
+## NestJS RestAPI Project
+My personal backend RestAPI project using NestJS and Prisma ORM. My goal here is to create a web app with everything i learned. 
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
